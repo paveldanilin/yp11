@@ -2,7 +2,7 @@ const Path                  = require('path');
 const MiniCssExtractPlugin  = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin     = require('html-webpack-plugin');
 const CopyPlugin            = require('copy-webpack-plugin');
-const Dotenv                = require('dotenv-webpack');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     entry: './src/app.js',
@@ -16,20 +16,32 @@ module.exports = {
     },
 
     plugins: [
-        new Dotenv(),
         new CopyPlugin([
             { from: './src/templates', to: 'templates' },
         ]),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css',
-            ignoreOrder: false
+            filename: '[name].[hash].css',
+            chunkFilename: '[id].[hash].css',
+            ignoreOrder: false,
+            options: {
+                hmr: process.env.NODE_ENV === 'development',
+                // if hmr does not work, this is a forceful method.
+                reloadAll: true,
+            }
         }),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             hash: true,
-            inject: false
+            inject: true
         }),
+        new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /\.css$/g,
+            cssProcessor: require('cssnano'),
+            cssProcessorPluginOptions: {
+                preset: ['default', { discardComments: { removeAll: true } }],
+            },
+            canPrint: true
+        })
     ],
 
 
