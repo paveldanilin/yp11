@@ -9,7 +9,7 @@ import CardCollection from "./CardCollection.js";
 import Profile from './Profile.js';
 import Api from "./Api";
 
-
+// похвально использование env
 const api = new Api({
     baseUrl: process.env.API_BASE_URL,
     token: process.env.API_TOKEN
@@ -31,7 +31,7 @@ profile.onAddNewCard = function(name, link) {
     //console.log(name);
     const newCard = new Card(name, link, [], true);
     newCard.setPopupService(popupService);
-
+    // слишком много обязонностей у Promise
     return new Promise((resolve, reject) => {
        api.addCard({
            name: name,
@@ -129,3 +129,15 @@ function loadCards()
     });
 
 }
+
+/**
+ * Вы много знаете, допустим знаете о get set и так далее но вы слишком усложняете
+ * 
+ * Я настоятельно советую обратиться к наставнику и привести Ваш код в более просто вид, где нет обилие геттеров и сеттеров
+ * Где модули более понятные и нет перенасыщение конструкторов. Я уверен что с текущими вашими знаниями это не займёт много времени
+ * 
+ * README.md должно быть рассписано как запустить проект, пошагово, что из себя представляет проект.
+ * 
+ * 
+ * Мне очень понравилось что настройки вынесены отдельно в env
+ */

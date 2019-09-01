@@ -39,7 +39,7 @@ export default class Card
             this._onDelete.push(newValue);
         }
     }
-
+    // Очень много геттеров и сеттеров
     get onDelete()
     {
         return this._onDelete;
@@ -208,8 +208,9 @@ export default class Card
     }
 
     like()
-    {
+    { 
         if (this._cardHTMLElement) {
+            // очень сложно читать этот участок кода. Нет понимания 
             const self = this;
             const likeElement = document.getElementById(this.getLikeIconId());
 
@@ -280,7 +281,7 @@ export default class Card
         }
 
         let likeIcon = [this.cssClassLikeIcon];
-
+        // Это надо выносить в отдельный метод
         for(let i = 0 ;i < this._likes.length; i++) {
             const likeOwner = this._likes[i];
 
@@ -289,7 +290,7 @@ export default class Card
                 break;
             }
         }
-
+        // Это надо выносить в отдельный метод
         const elements = [
             {
                 id: this.getBackgroundId(),

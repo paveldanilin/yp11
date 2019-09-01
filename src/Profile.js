@@ -110,7 +110,7 @@ export default class Profile extends BaseWidget
                     if (profile._update) {
                         const saveButton = document.getElementById('profile-save-button');
                         saveButton.textContent = 'Загрузка...';
-
+                        // Это надо выносить в отдельный метод
                         return new Promise(function (resolve, reject) {
                             try {
                                 profile._update({
@@ -173,6 +173,7 @@ export default class Profile extends BaseWidget
                             const saveButton = document.getElementById('place-save-button');
                             saveButton.textContent = 'Загрузка...';
 
+                        // Это надо выносить в отдельный метод
                             return new Promise(function (resolve, reject) {
                                 try {
                                     profile._onAddNewCard(
@@ -195,7 +196,7 @@ export default class Profile extends BaseWidget
                 }
             });
     }
-
+    // Теряется смысл, контекст и читабельность когда с большим количеством сеттеров и геттеров
     set id(id)
     {
         this._id = id;

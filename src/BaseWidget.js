@@ -12,7 +12,7 @@ export default class BaseWidget
         this._bindings = {};
 
         const widget = this;
-
+        // Зачем при передаче параметров в Proxy вы добавляете условия, присваиваете переменные и так далее
         this._proxyContext = new Proxy(this._context, {
             set(target, prop, value) {
                 const oldValue = target[prop];

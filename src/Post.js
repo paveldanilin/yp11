@@ -1,9 +1,11 @@
 export default class Post
 {
+    // Правильное использование конструктора
     constructor(id, body, title, userId) {
         this._id = id;
         this._body = body;
         this._title = title;
+        // Где используется переменная _userId ??
         this._userId = userId;
     }
 

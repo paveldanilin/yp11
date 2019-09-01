@@ -1,5 +1,9 @@
 export default class Popup
 {
+
+    // очень жирный конструктор, вы его неправильно используете
+    // Сейчас у вас конструктор больше чем все взятые методы 
+    // Свяжитесь с Вашим наставником
     constructor(htmlContainerElement)
     {
         this._htmlContainerElement = htmlContainerElement;
@@ -100,6 +104,7 @@ export default class Popup
 
     open()
     {
+        // очень много передаёте в условие, сократите, передав в переменные контекст и потом сравнивая как вариант
         if (this._htmlContainerElement && ! this._htmlContainerElement.classList.contains(this._cssClassIsOpen)) {
             this._htmlContainerElement.classList.add(this._cssClassIsOpen);
             Array.from(this._htmlContainerElement.getElementsByTagName('form')).forEach((form) => form.reset());
@@ -108,9 +113,13 @@ export default class Popup
     }
 
     close()
+                        // Это надо выносить в отдельный метод
     {
+                        // Это надо выносить в отдельный метод
         if (this._htmlContainerElement && this._htmlContainerElement.classList.contains(this._cssClassIsOpen)) {
+                        // Это надо выносить в отдельный метод
             this._htmlContainerElement.classList.remove(this._cssClassIsOpen);
+                        // Это надо выносить в отдельный метод
             this._isOpened = false;
         }
     }

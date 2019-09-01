@@ -66,7 +66,7 @@ export default class CardCollection
                 return card.getId() === item.getId();
             });
         }
-
+        // сложный контекст возврата
         return -1;
     }
 }
