@@ -1,0 +1,11 @@
+@import url(./_is-visible/error_is-visible.css);
+
+.error {
+    font-family: Inter;
+    font-size: 12px;
+    line-height: 14px;
+
+    color: #FF0000;
+
+    visibility: hidden;
+}

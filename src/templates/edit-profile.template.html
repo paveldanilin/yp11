@@ -1,0 +1,41 @@
+<div class="popup__content">
+    <img src="images/close.svg" alt="" class="popup__close" data-popup-close>
+    <h3 class="popup__title">Редактировать профиль</h3>
+
+    <form id="edit-profile-form" class="popup__form" name="profile">
+        <input
+                id="profile-name"
+                type="text"
+                name="name"
+                required
+                minlength="2"
+                maxlength="30"
+                data-value-missing="Это обязательное поле"
+                data-too-short="Должно быть от 2 до 30 символов"
+                data-too-long="Должно быть от 2 до 30 символов"
+                data-error-container="profile-name-error"
+                class="popup__input popup__input_type_name"
+                placeholder="Имя">
+
+        <div id="profile-name-error" class="error">E</div>
+
+        <input
+                id="profile-about"
+                type="text"
+                name="about"
+                required
+                minlength="2"
+                maxlength="30"
+                data-value-missing="Это обязательное поле"
+                data-too-short="Должно быть от 2 до 30 символов"
+                data-too-long="Должно быть от 2 до 30 символов"
+                data-error-container="profile-about-error"
+                class="popup__input popup__input_type_link-url"
+                placeholder="О себе">
+
+        <div id="profile-about-error" class="error">E</div>
+
+        <button id="profile-save-button" type class="button popup__button" data-popup-ok>Сохранить</button>
+    </form>
+
+</div>

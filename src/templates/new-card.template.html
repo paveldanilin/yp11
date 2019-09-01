@@ -1,0 +1,38 @@
+<div class="popup__content">
+    <img src="images/close.svg" alt="" class="popup__close" data-popup-close>
+    <h3 class="popup__title">Новое место</h3>
+
+    <form id="new-card-form" class="popup__form" name="new">
+        <input
+                id="place-name"
+                type="text"
+                name="name"
+                maxlength="30"
+                minlength="2"
+                required
+                data-value-missing="Это обязательное поле"
+                data-too-short="Должно быть от 2 до 30 символов"
+                data-too-long="Должно быть от 2 до 30 символов"
+                data-error-container="place-name-error"
+                class="popup__input popup__input_type_name"
+                placeholder="Название">
+
+        <div id="place-name-error" class="error">E</div>
+
+        <input
+                id="place-image"
+                type="url"
+                name="link"
+                required
+                data-value-missing="Это обязательное поле"
+                data-type-mismatch="Здесь должны быть ссылка"
+                data-error-container="place-image-error"
+                class="popup__input popup__input_type_link-url"
+                placeholder="Ссылка на картинку">
+
+        <div id="place-image-error" class="error">E</div>
+
+        <button id="place-save-button" type class="button popup__button" data-popup-ok>+</button>
+    </form>
+
+</div>
