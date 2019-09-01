@@ -2,40 +2,23 @@ import HttpClient from "./HttpClient/HttpClient";
 import HttpRequest from "./HttpClient/HttpRequest";
 import Post from "./Post";
 
-export default class Api
-{
-    constructor(options)
-    /**
-     * Можно улучшить
-     * 
-     * Передаваемые параметры лучше записывать в параметры класса работы с Api
-     * нам точно нужен адрес и токен, укажем на это в конструкторе и получим
-     * ключи для более простого обращения constructor({baseUrl, token})
-     */
-    {
-        const token = options.token || null;
-        // const { baseUrl, token } = options 
-        // будет аналогично получению в constructor({ baseUrl, token })
-
+export default class Api {
+    constructor({baseUrl, token}) {
         if (token === null) {
             throw new Error('Not defined API token option');
         }
 
         this._httpClient = new HttpClient({
-            baseUrl: options.baseUrl || '',
+            baseUrl: baseUrl || '',
             mode: HttpRequest.MODE_CORS,
             responseFormat: 'json',
             headers: {
                 authorization: token
             }
-            /**
-             * Отличная реализация клиента для запросов
-             */
         });
     }
 
-    getUserProfile()
-    {
+    getUserProfile() {
         const self = this;
 
         return new Promise(function(resolve, reject) {
@@ -49,8 +32,7 @@ export default class Api
         });
     }
 
-    updateUserProfile(profile)
-    {
+    updateUserProfile(profile) {
         const self = this;
 
         return new Promise(function(resolve, reject) {
@@ -65,7 +47,7 @@ export default class Api
                     })
                     /**
                      * Можно улучшить
-                     * 
+                     *
                      * Запись легко сократить до { name, about }
                      * если получить из объекта профиля с помощью деструктуризации
                      * объекта https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
@@ -79,8 +61,7 @@ export default class Api
         });
     }
 
-    getInitialCards()
-    {
+    getInitialCards() {
         const self = this;
 
         return new Promise(function(resolve, reject) {
@@ -94,8 +75,7 @@ export default class Api
         });
     }
 
-    addCard(card)
-    {
+    addCard(card) {
         const self = this;
 
         return new Promise(function(resolve, reject) {
@@ -114,8 +94,7 @@ export default class Api
         });
     }
 
-    deleteCard(id)
-    {
+    deleteCard(id) {
         const self = this;
 
         return new Promise((resolve, reject) => {
@@ -129,8 +108,7 @@ export default class Api
         });
     }
 
-    likeCard(id)
-    {
+    likeCard(id) {
         const self = this;
 
         return new Promise((resolve, reject) => {
@@ -142,8 +120,7 @@ export default class Api
         });
     }
 
-    dislikeCard(id)
-    {
+    dislikeCard(id) {
         const self = this;
 
         return new Promise((resolve, reject) => {
@@ -155,8 +132,7 @@ export default class Api
         });
     }
 
-    getPosts()
-    {
+    getPosts() {
         const self = this;
        return new Promise(
            function (resolve, reject) {
@@ -172,23 +148,4 @@ export default class Api
            }
        );
     }
-
-    // другие методы работы с API
 }
-
-/**
- * Отличная работа
- * 
- * Выполнен базовый и дополнительный функционал задания.
- * Можно добавить, удалить карточку и поставить лайк.
- */
-
- /**
- * Обратить внимание:
- * 
- * Чтобы упростить запуск проекта стоит добавить зависимость
- * npm i --save-dev webpack-dev-server
- * 
- * и скрипт запуска в package.json
- * "dev": "webpack-dev-server --config webpack.config.js --progress"
- */

@@ -1,21 +1,20 @@
-export function random(min, max)
-{
-    min = Math.ceil(min);
-    max = Math.floor(max);
+export function random(min, max) {
+    const minRounded = Math.ceil(min);
 
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (Math.floor(max) - minRounded + 1)) + minRounded;
 }
 
 
-export function loadHtml(url, callback)
-{
-    if ( !window.XMLHttpRequest ) return;
+export function loadHtml(url, callback) {
+    if ( !window.XMLHttpRequest ) {
+        return;
+    }
 
     const xhr = new XMLHttpRequest();
 
     xhr.onload = function() {
         if ( callback && typeof( callback ) === 'function' ) {
-            callback( this.responseXML );
+            return callback( this.responseXML );
         }
     };
 
