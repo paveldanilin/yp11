@@ -9,7 +9,7 @@ export function loadHtml(url, callback) {
     if ( !window.XMLHttpRequest ) {
         return;
     }
-
+    // В каком то спринте было в задании fetch
     const xhr = new XMLHttpRequest();
 
     xhr.onload = function() {

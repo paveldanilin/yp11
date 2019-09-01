@@ -35,6 +35,7 @@ export default class PopupService
                         popupMap.set(containerId, popupComponent);
                         resolve(popupComponent);
                     } else {
+                        // А если сервер пришлёт 500
                         reject(new Error('Could not load Popup HTML template'));
                     }
                 });
