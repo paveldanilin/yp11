@@ -1,7 +1,5 @@
 
-// TODO: filterXXX methods should be refactored
-export default class HttpRequest
-{
+export default class HttpRequest {
     static get METHOD_GET() {
         return 'GET';
     }
@@ -94,19 +92,18 @@ export default class HttpRequest
         return 'error';
     }
 
-    static filterOptionMethod(method)
-    {
-        method = method || HttpRequest.METHOD_GET;
+    static filterOptionMethod(method) {
+        let reqMethod = method || HttpRequest.METHOD_GET;
 
-        if (typeof method !== 'string') {
+        if (typeof reqMethod !== 'string') {
             throw new Error('`method` options must me string');
         }
 
-        if (method.trim().length === 0) {
+        if (reqMethod.trim().length === 0) {
             throw new Error('`method` option must be non empty string');
         }
 
-        method = method.toUpperCase();
+        reqMethod = reqMethod.toUpperCase();
 
         const allowed = [
             HttpRequest.METHOD_GET,
@@ -120,76 +117,69 @@ export default class HttpRequest
             HttpRequest.METHOD_TRACE
         ];
 
-        if (! allowed.includes(method)) {
+        if (! allowed.includes(reqMethod)) {
             throw new Error('`method` option value must be on of [' + allowed.join(',') + ']');
         }
 
-        return method;
+        return reqMethod;
     }
 
-    static filterOptionMode(mode)
-    {
-        mode = mode || HttpRequest.MODE_SAME_ORIGIN;
+    static filterOptionMode(mode) {
+        let reqMode = mode || HttpRequest.MODE_SAME_ORIGIN;
 
-        if (typeof mode !== 'string') {
+        if (typeof reqMode !== 'string') {
             throw new Error('`mode` options must me string');
         }
 
-        if (mode.trim().length === 0) {
+        if (reqMode.trim().length === 0) {
             throw new Error('`mode` option must be non empty string');
         }
 
-        mode = mode.toLowerCase();
+        reqMode = reqMode.toLowerCase();
 
-        const allowed = [
-            HttpRequest.MODE_SAME_ORIGIN, HttpRequest.MODE_CORS, HttpRequest.MODE_NO_CORS
-        ];
+        const allowed = [HttpRequest.MODE_SAME_ORIGIN, HttpRequest.MODE_CORS, HttpRequest.MODE_NO_CORS];
 
-        if (! allowed.includes(mode)) {
+        if (! allowed.includes(reqMode)) {
             throw new Error('`mode` option value must be on of [' + allowed.join(',') + ']');
         }
 
-        return mode;
+        return reqMode;
     }
 
-    static filterOptionCredentials(credentials)
-    {
-        credentials = credentials || HttpRequest.CREDENTIALS_OMIT;
+    static filterOptionCredentials(credentials) {
+        let reqCredentials = credentials || HttpRequest.CREDENTIALS_OMIT;
 
-        if (typeof credentials !== 'string') {
+        if (typeof reqCredentials !== 'string') {
             throw new Error('`credentials` options must me string');
         }
 
-        if (credentials.trim().length === 0) {
+        if (reqCredentials.trim().length === 0) {
             throw new Error('`credentials` option must be non empty string');
         }
 
-        credentials = credentials.toLowerCase();
+        reqCredentials = reqCredentials.toLowerCase();
 
-        const allowed = [
-            HttpRequest.CREDENTIALS_OMIT, HttpRequest.CREDENTIALS_INCLUDE, HttpRequest.CREDENTIALS_SAME_ORIGIN
-        ];
+        const allowed = [HttpRequest.CREDENTIALS_OMIT, HttpRequest.CREDENTIALS_INCLUDE, HttpRequest.CREDENTIALS_SAME_ORIGIN];
 
-        if (! allowed.includes(credentials)) {
+        if (! allowed.includes(reqCredentials)) {
             throw new Error('`credentials` option value must be on of [' + allowed.join(',') + ']');
         }
 
-        return credentials;
+        return reqCredentials;
     }
 
-    static filterOptionCache(cache)
-    {
-        cache = cache || HttpRequest.CACHE_DEFAULT;
+    static filterOptionCache(cache) {
+        let reqCache = cache || HttpRequest.CACHE_DEFAULT;
 
-        if (typeof cache !== 'string') {
+        if (typeof reqCache !== 'string') {
             throw new Error('`cache` options must me string');
         }
 
-        if (cache.trim().length === 0) {
+        if (reqCache.trim().length === 0) {
             throw new Error('`cache` option must be non empty string');
         }
 
-        cache = cache.toLowerCase();
+        reqCache = reqCache.toLowerCase();
 
         const allowed = [
             HttpRequest.CACHE_DEFAULT,
@@ -200,36 +190,32 @@ export default class HttpRequest
             HttpRequest.CACHE_RELOAD
         ];
 
-        if (! allowed.includes(cache)) {
+        if (! allowed.includes(reqCache)) {
             throw new Error('`cache` option value must be on of [' + allowed.join(',') + ']');
         }
 
-        return cache;
+        return reqCache;
     }
 
-    static filterOptionRedirect(redirect)
-    {
-        redirect = redirect || HttpRequest.REDIRECT_FOLLOW;
+    static filterOptionRedirect(redirect) {
+        let reqRedirect = redirect || HttpRequest.REDIRECT_FOLLOW;
 
-        if (typeof redirect !== 'string') {
+        if (typeof reqRedirect !== 'string') {
             throw new Error('`redirect` options must me string');
         }
 
-        if (redirect.trim().length === 0) {
+        if (reqRedirect.trim().length === 0) {
             throw new Error('`redirect` option must be non empty string');
         }
 
-        redirect = redirect.toLowerCase();
+        reqRedirect = reqRedirect.toLowerCase();
 
-        const allowed = [
-            HttpRequest.REDIRECT_FOLLOW,
-            HttpRequest.REDIRECT_ERROR
-        ];
+        const allowed = [HttpRequest.REDIRECT_FOLLOW, HttpRequest.REDIRECT_ERROR];
 
-        if (! allowed.includes(redirect)) {
+        if (! allowed.includes(reqRedirect)) {
             throw new Error('`redirect` option value must be on of [' + allowed.join(',') + ']');
         }
 
-        return redirect;
+        return reqRedirect;
     }
 }

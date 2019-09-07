@@ -1,7 +1,6 @@
-export default class ValidatorService
-{
-    static getError(element)
-    {
+export default class ValidatorService {
+
+    static getError(element) {
         if (element.checkValidity()) {
             return false;
         }
@@ -25,8 +24,7 @@ export default class ValidatorService
         return 'Unknown error';
     }
 
-    static check(element)
-    {
+    static check(element) {
         const errorMessage = ValidatorService.getError(element);
 
         const idErrorMessage = element.getAttribute('data-error-container') || null;
@@ -47,8 +45,7 @@ export default class ValidatorService
         }
     }
 
-    static hide(element)
-    {
+    static hide(element) {
         const idErrorMessage = element.getAttribute('data-error-container') || null;
 
         const errorMessageElement = document.getElementById(idErrorMessage);
