@@ -1,5 +1,4 @@
-export default class Post
-{
+export default class Post {
     constructor(id, body, title, userId) {
         this._id = id;
         this._body = body;
@@ -7,8 +6,7 @@ export default class Post
         this._userId = userId;
     }
 
-    render()
-    {
+    render() {
         const container = document.createElement('div');
         container.style.border = '1px solid red';
 
@@ -31,8 +29,7 @@ export default class Post
         return container;
     }
 
-    static factory(data)
-    {
+    static factory(data) {
         return new Post(data.id, data.body, data.title, data.userId);
     }
 }

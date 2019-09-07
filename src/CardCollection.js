@@ -1,21 +1,18 @@
 import Card from "./Card.js";
 
-export default class CardCollection
-{
-    constructor(containerId, cards)
-    {
+export default class CardCollection {
+    constructor(containerId, cards) {
         this._htmlContainerElement = document.getElementById(containerId);
         this._collection = [];
 
         if (cards) {
-            cards.forEach(function (card) {
-                add(card);
+            cards.forEach((card) => {
+                this.add(card);
             });
         }
     }
 
-    add(card)
-    {
+    add(card) {
         if (card instanceof Card) {
             if (this.has(card) === false) {
                 const self = this;
@@ -29,8 +26,7 @@ export default class CardCollection
         }
     }
 
-    remove(card)
-    {
+    remove(card) {
         const cardIndex = this.findIndexOf(card);
 
         if (cardIndex >= 0) {
@@ -41,30 +37,25 @@ export default class CardCollection
         return false;
     }
 
-    has(card)
-    {
+    has(card) {
         return this.findIndexOf(card) >= 0;
     }
 
-    render()
-    {
+    render() {
         const htmlElement = this._htmlContainerElement;
 
         while (htmlElement.firstChild) {
             htmlElement.removeChild(htmlElement.firstChild);
         }
 
-        this._collection.forEach(function (card) {
+        this._collection.forEach((card) => {
             htmlElement.appendChild(card.render());
         });
     }
 
-    findIndexOf(card)
-    {
+    findIndexOf(card) {
         if (card instanceof Card) {
-            return this._collection.findIndex(function (item, index, array) {
-                return card.getId() === item.getId();
-            });
+            return this._collection.findIndex((item) => card.getId() === item.getId());
         }
 
         return -1;

@@ -49,7 +49,7 @@ module.exports = {
             "never"
         ],
         "consistent-return": "off",
-        "consistent-this": "error",
+        "consistent-this": ["error", "self"],
         "curly": "error",
         "default-case": "error",
         "dot-location": "error",

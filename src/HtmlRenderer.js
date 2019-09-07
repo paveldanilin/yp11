@@ -1,14 +1,11 @@
-export default class HtmlRenderer
-{
-    static render(definition)
-    {
+export default class HtmlRenderer {
+    static render(definition) {
         HtmlRenderer.validateDefinition(definition);
 
         return HtmlRenderer.doRender(definition);
     }
 
-    static doRender(definition)
-    {
+    static doRender(definition) {
         const id          = definition.id || null;
         const name        = definition.name || null;
         const element     = definition.element || null;
@@ -24,22 +21,21 @@ export default class HtmlRenderer
 
         const htmlElement = HtmlRenderer.createHtmlElement(id, name, element, classList, style, on, textContent);
 
-        children.forEach(function (innerChildDefinition) {
+        children.forEach((innerChildDefinition) => {
             htmlElement.appendChild(HtmlRenderer.doRender(innerChildDefinition));
         });
 
         return htmlElement;
     }
 
-    static createHtmlElement(id, name, element, classList, style, on, textContent)
-    {
-        element = element.toLowerCase().trim();
+    static createHtmlElement(id, name, element, classList, style, on, textContent) {
+        const elementStr = element.toLowerCase().trim();
 
-        if (element.length === 0) {
+        if (elementStr.length === 0) {
             throw new Error('"element" property must be non empty string');
         }
 
-        const htmlElement = document.createElement(element);
+        const htmlElement = document.createElement(elementStr);
 
         if (id) {
             htmlElement.id = id;
@@ -49,11 +45,11 @@ export default class HtmlRenderer
             htmlElement.name = name;
         }
 
-        classList.forEach(function(cssClass) {
+        classList.forEach((cssClass) => {
            htmlElement.classList.add(cssClass);
         });
 
-        Object.keys(style).forEach(function (styleName) {
+        Object.keys(style).forEach((styleName) => {
             htmlElement.style[styleName] = style[styleName];
         });
 
@@ -61,15 +57,14 @@ export default class HtmlRenderer
             htmlElement.textContent = textContent;
         }
 
-        Object.keys(on).forEach(function(onEventName) {
+        Object.keys(on).forEach((onEventName) => {
             htmlElement.addEventListener(onEventName, on[onEventName]);
         });
 
         return htmlElement;
     }
 
-    static validateDefinition(definition)
-    {
+    static validateDefinition(definition) {
         const defType = typeof definition;
 
         if (defType !== 'object') {

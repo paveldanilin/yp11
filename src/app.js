@@ -1,5 +1,5 @@
 import "@babel/polyfill";
-import "./pages/index.css";
+import "./blocks/index.css";
 import "./images/logo.svg";
 import "./images/close.svg";
 
@@ -15,7 +15,7 @@ const api = new Api({
     token: process.env.API_TOKEN
 });
 
-const popupService   = new PopupService();
+const popupService = new PopupService();
 const cardCollection = new CardCollection('places');
 
 
@@ -28,7 +28,6 @@ profile.update = function(newProfile) {
 };
 
 profile.onAddNewCard = function(name, link) {
-    //console.log(name);
     const newCard = new Card(name, link, [], true);
     newCard.setPopupService(popupService);
 
@@ -40,9 +39,10 @@ profile.onAddNewCard = function(name, link) {
            // когда ключи совпадают дублирование можно убрать
        }) .then((addedCard) => {
            resolve();
+
            /**
             * Можно улучшить
-            * 
+            *
             * Для упрощения развития кода в промисах лучше возвращать результат
             * с данными resolve(addedCard)
             */
@@ -73,11 +73,6 @@ profile.onAddNewCard = function(name, link) {
            cardCollection.render();
        }).catch(() => reject());
     });
-
-    // cardCollection.add(newCard);
-    //cardCollection.render();
-
-    // Можно улучшить код который не используется перед публикацией чистим
 };
 
 api.getUserProfile().then((userData) => {
@@ -91,13 +86,10 @@ api.getUserProfile().then((userData) => {
 });
 
 
-function loadCards()
-{
+function loadCards() {
     api.getInitialCards().then((cards) => {
-        cards.forEach(function (card) {
+        cards.forEach((card) => {
             const newCard = new Card(card.name, card.link, card.likes, card.owner._id === profile.id);
-
-            //console.log(card);
 
             newCard.id = card._id || null;
             newCard.owner = card.owner || null;
@@ -107,18 +99,17 @@ function loadCards()
             newCard.onDelete = function() {
                 if (window.confirm('Are you sure?') === true) {
                     api.deleteCard(newCard.id);
+                    return true;
                 } else {
                     return false;
                 }
             };
 
             newCard.onLike = function() {
-                console.log('like');
                 api.likeCard(newCard.id).then((card) => newCard.likes = card.likes);
             };
 
             newCard.onDislike = function() {
-                console.log('dislike');
                 api.dislikeCard(newCard.id).then((card) => newCard.likes = card.likes);
             };
 

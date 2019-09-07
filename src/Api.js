@@ -19,11 +19,9 @@ export default class Api {
     }
 
     getUserProfile() {
-        const self = this;
-
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             try {
-                self._httpClient.fetch('/users/me').then((userData) => {
+                this._httpClient.fetch('/users/me').then((userData) => {
                     resolve(userData);
                 });
             } catch (e) {
@@ -32,29 +30,17 @@ export default class Api {
         });
     }
 
-    updateUserProfile(profile) {
-        const self = this;
-
-        return new Promise(function(resolve, reject) {
+    updateUserProfile({name, about}) {
+        return new Promise((resolve, reject) => {
             try {
-                self._httpClient.patch('/users/me', {
+                this._httpClient.patch('/users/me', {
                     headers: {
                         'content-type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        name: profile.name,
-                        about: profile.about
-                    })
-                    /**
-                     * Можно улучшить
-                     *
-                     * Запись легко сократить до { name, about }
-                     * если получить из объекта профиля с помощью деструктуризации
-                     * объекта https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-                     */
+                    body: JSON.stringify({name, about})
                 }).then((userData) => {
                     resolve(userData);
-                })
+                });
             } catch (e) {
                 reject(e);
             }
@@ -62,11 +48,9 @@ export default class Api {
     }
 
     getInitialCards() {
-        const self = this;
-
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             try {
-                self._httpClient.fetch('/cards').then((cardsData) => {
+                this._httpClient.fetch('/cards').then((cardsData) => {
                     resolve(cardsData);
                 });
             } catch (e) {
@@ -76,11 +60,9 @@ export default class Api {
     }
 
     addCard(card) {
-        const self = this;
-
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             try {
-                self._httpClient.post('/cards', {
+                this._httpClient.post('/cards', {
                     headers: {
                         'content-type': 'application/json'
                     },
@@ -95,13 +77,9 @@ export default class Api {
     }
 
     deleteCard(id) {
-        const self = this;
-
         return new Promise((resolve, reject) => {
             try {
-                self._httpClient.delete('/cards/' + id).then(() => resolve());
-                // можно улучшить - удобнее использовать шаблонные строки
-                // `/cards/${id}` вместо конкатенации, особенно если параметров несколько
+                this._httpClient.delete(`/cards/${id}`).then(() => resolve());
             } catch (e) {
                 reject(e);
             }
@@ -109,11 +87,9 @@ export default class Api {
     }
 
     likeCard(id) {
-        const self = this;
-
         return new Promise((resolve, reject) => {
             try {
-                self._httpClient.put('/cards/like/' + id).then((card) => resolve(card));
+                this._httpClient.put(`/cards/like/${id}`).then((card) => resolve(card));
             } catch (e) {
                 reject(e);
             }
@@ -121,11 +97,9 @@ export default class Api {
     }
 
     dislikeCard(id) {
-        const self = this;
-
         return new Promise((resolve, reject) => {
             try {
-                self._httpClient.delete('/cards/like/' + id).then((card) => resolve(card));
+                this._httpClient.delete(`/cards/like/${id}`).then((card) => resolve(card));
             } catch (e) {
                 reject(e);
             }
@@ -133,19 +107,14 @@ export default class Api {
     }
 
     getPosts() {
-        const self = this;
-       return new Promise(
-           function (resolve, reject) {
-               try {
-                   self._httpClient.fetch('/posts').then((data) => {
-                       resolve(data.map(function (postData) {
-                           return Post.factory(postData);
-                       }));
-                   });
-               } catch (e) {
-                   reject(e);
-               }
+       return new Promise((resolve, reject) => {
+           try {
+               this._httpClient.fetch('/posts').then((data) => {
+                   resolve(data.map((postData) => Post.factory(postData)));
+               });
+           } catch (e) {
+               reject(e);
            }
-       );
+       });
     }
 }

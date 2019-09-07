@@ -1,20 +1,18 @@
 import HttpRequest from "./HttpRequest";
 import HttpError from "./HttpError";
 
-export default class HttpClient
-{
-    constructor(options)
-    {
-        options = options || {};
+export default class HttpClient {
+    constructor(options) {
+        const clientOptions = options || {};
 
-        this._baseUrl = this._filterOptionBaseUrl(options.baseUrl || '');
-        this._headers = options.headers || {};
-        this._mode = options.mode || HttpRequest.MODE_SAME_ORIGIN;
-        this._cache = options.cache || HttpRequest.CACHE_DEFAULT;
-        this._redirect = options.redirect || HttpRequest.REDIRECT_FOLLOW;
-        this._credentials = options.credentials || HttpRequest.CREDENTIALS_SAME_ORIGIN;
-        this._throwError = options.throwError || true;
-        this._responseFormat = this._filterOptionResponseFormat(options.responseFormat || undefined);
+        this._baseUrl = this._filterOptionBaseUrl(clientOptions.baseUrl || '');
+        this._headers = clientOptions.headers || {};
+        this._mode = clientOptions.mode || HttpRequest.MODE_SAME_ORIGIN;
+        this._cache = clientOptions.cache || HttpRequest.CACHE_DEFAULT;
+        this._redirect = clientOptions.redirect || HttpRequest.REDIRECT_FOLLOW;
+        this._credentials = clientOptions.credentials || HttpRequest.CREDENTIALS_SAME_ORIGIN;
+        this._throwError = clientOptions.throwError || true;
+        this._responseFormat = this._filterOptionResponseFormat(clientOptions.responseFormat || undefined);
     }
 
     static get RESPONSE_JSON() {
@@ -41,136 +39,117 @@ export default class HttpClient
         return 'raw';
     }
 
-    static getRequest(url, options)
-    {
-        const httpClient = new HttpClient();
-
-        return httpClient.fetch(url, options);
+    static create(options) {
+        return new HttpClient(options || {});
     }
 
-    static postRequest(url, options)
-    {
-        const httpClient = new HttpClient();
-
-        return httpClient.post(url, options);
+    static getRequest(url, options) {
+        return HttpClient.create().fetch(url, options);
     }
 
-    static patchRequest(url, options)
-    {
-        const httpClient = new HttpClient();
-
-        return httpClient.patch(url, options);
+    static postRequest(url, options) {
+        return HttpClient.create().post(url, options);
     }
 
-    static deleteRequest(url, options)
-    {
-        const httpClient = new HttpClient();
-
-        return httpClient.delete(url, options);
+    static patchRequest(url, options) {
+        return HttpClient.create().patch(url, options);
     }
 
-    fetch(url, options)
-    {
-        options = options || {};
+    static deleteRequest(url, options) {
+        return HttpClient.create().delete(url, options);
+    }
 
+    fetch(url, {headers, mode, cache, redirect, credentials, responseFormat} = {}) {
         return this.sendRequest(
             url,
             HttpRequest.METHOD_GET,
-            options.headers || undefined,
+            headers || undefined,
             undefined,
-            options.mode || undefined,
-            options.cache || undefined,
-            options.redirect || undefined,
-            options.credentials || undefined,
-            options.responseFormat || undefined);
+            mode || undefined,
+            cache || undefined,
+            redirect || undefined,
+            credentials || undefined,
+            responseFormat || undefined
+        );
     }
 
-    post(url, options)
-    {
-        options = options || {};
-
+    post(url, {headers, body, mode, cache, redirect, credentials, responseFormat} = {}) {
         return this.sendRequest(
             url,
             HttpRequest.METHOD_POST,
-            options.headers || undefined,
-            options.body || undefined,
-            options.mode || undefined,
-            options.cache || undefined,
-            options.redirect || undefined,
-            options.credentials || undefined,
-            options.responseFormat || undefined);
+            headers || undefined,
+            body || undefined,
+            mode || undefined,
+            cache || undefined,
+            redirect || undefined,
+            credentials || undefined,
+            responseFormat || undefined
+        );
     }
 
-    patch(url, options)
-    {
-        options = options || {};
-
+    patch(url, {headers, body, mode, cache, redirect, credentials, responseFormat} = {}) {
         return this.sendRequest(
             url,
             HttpRequest.METHOD_PATCH,
-            options.headers || undefined,
-            options.body || undefined,
-            options.mode || undefined,
-            options.cache || undefined,
-            options.redirect || undefined,
-            options.credentials || undefined,
-            options.responseFormat || undefined);
+            headers || undefined,
+            body || undefined,
+            mode || undefined,
+            cache || undefined,
+            redirect || undefined,
+            credentials || undefined,
+            responseFormat || undefined
+        );
     }
 
-    put(url, options)
-    {
-        options = options || {};
-
+    put(url, {headers, body, mode, cache, redirect, credentials, responseFormat} = {}) {
         return this.sendRequest(
             url,
             HttpRequest.METHOD_PUT,
-            options.headers || undefined,
-            options.body || undefined,
-            options.mode || undefined,
-            options.cache || undefined,
-            options.redirect || undefined,
-            options.credentials || undefined,
-            options.responseFormat || undefined);
+            headers || undefined,
+            body || undefined,
+            mode || undefined,
+            cache || undefined,
+            redirect || undefined,
+            credentials || undefined,
+            responseFormat || undefined
+        );
     }
 
-    delete(url, options)
-    {
-        options = options || {};
-
+    delete(url, {headers, mode, cache, redirect, credentials, responseFormat} = {}) {
         return this.sendRequest(
             url,
             HttpRequest.METHOD_DELETE,
-            options.headers || undefined,
+            headers || undefined,
             undefined,
-            options.mode || undefined,
-            options.cache || undefined,
-            options.redirect || undefined,
-            options.credentials || undefined,
-            options.responseFormat || undefined);
+            mode || undefined,
+            cache || undefined,
+            redirect || undefined,
+            credentials || undefined,
+            responseFormat || undefined
+        );
     }
 
-    async sendRequest(url, method, headers, body, mode, cache, redirect, credentials, responseFormat)
-    {
-        headers     = headers || {};
-        headers     = Object.assign(this._headers, headers);
-        mode        = mode || this._mode;
-        cache       = cache || this._cache;
-        redirect    = redirect || this._redirect;
-        credentials     = credentials || this._credentials;
-        responseFormat  = this._filterOptionResponseFormat(responseFormat, this._responseFormat);
-
+    async sendRequest(url, method, headers, body, mode, cache, redirect, credentials, responseFormat) {
+        let reqHeaders = headers || {};
+        reqHeaders = Object.assign(this._headers, reqHeaders);
+        const reqMode = mode || this._mode;
+        const reqCache = cache || this._cache;
+        const reqRedirect = redirect || this._redirect;
+        const reqCredentials = credentials || this._credentials;
+        const reqResponseFormat = this._filterOptionResponseFormat(responseFormat, this._responseFormat);
+        let reqUrl = url;
         if (this._baseUrl.length > 0) {
-            url = this._baseUrl + url;
+            reqUrl = this._baseUrl + reqUrl;
         }
 
-        const request = new Request(url, {
-            method:         HttpRequest.filterOptionMethod(method),
-            body:           body,
-            headers:        headers,
-            mode:           HttpRequest.filterOptionMode(mode),
-            cache:          HttpRequest.filterOptionCache(cache),
-            redirect:       HttpRequest.filterOptionRedirect(redirect),
-            credentials:    HttpRequest.filterOptionCredentials(credentials)
+        const request = new Request(reqUrl, {
+            method: HttpRequest.filterOptionMethod(method),
+            body: body,
+            headers: reqHeaders,
+            mode: HttpRequest.filterOptionMode(reqMode),
+            cache: HttpRequest.filterOptionCache(reqCache),
+            redirect: HttpRequest.filterOptionRedirect(reqRedirect),
+            credentials:HttpRequest.filterOptionCredentials(reqCredentials)
         });
 
         const response = await fetch(request);
@@ -180,7 +159,8 @@ export default class HttpClient
         }
 
         if (response.ok) {
-            switch (responseFormat) {
+            switch (reqResponseFormat) {
+                default:
                 case HttpClient.RESPONSE_TEXT:
                     return response.text();
 
@@ -201,9 +181,8 @@ export default class HttpClient
         return response;
     }
 
-    _filterOptionResponseFormat(responseFormat, defaultFormat)
-    {
-        responseFormat = responseFormat || defaultFormat || HttpClient.RESPONSE_RAW;
+    _filterOptionResponseFormat(responseFormat, defaultFormat) {
+        const format = (responseFormat || defaultFormat || HttpClient.RESPONSE_RAW).toLowerCase();
 
         const allowed = [
             HttpClient.RESPONSE_RAW,
@@ -214,17 +193,14 @@ export default class HttpClient
             HttpClient.RESPONSE_TEXT
         ];
 
-        responseFormat = responseFormat.toLowerCase();
-
-        if (! allowed.includes(responseFormat)) {
+        if (! allowed.includes(format)) {
             throw new Error('`responseFormat` option must have value one of [' + allowed.join(',') + ']');
         }
 
-        return responseFormat;
+        return format;
     }
 
-    _filterOptionBaseUrl(baseUrl)
-    {
+    _filterOptionBaseUrl(baseUrl) {
         if (typeof baseUrl !== 'string') {
             throw new Error('`baseUrl` option must be non empty string');
         }
